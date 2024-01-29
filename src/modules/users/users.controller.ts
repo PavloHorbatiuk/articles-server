@@ -5,7 +5,7 @@ import { JwtAuthGuard } from 'src/guards/jwt-auth.guard';
 import {  UpdateUserDTO } from './dto';
 import { UsersService } from './users.service';
 
-
+@ApiTags('users')
 @Controller('users')
 export class UsersController {
 	constructor(private readonly userService: UsersService) { }

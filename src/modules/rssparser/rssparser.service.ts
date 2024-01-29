@@ -26,9 +26,9 @@ export class RssparserService {
 	async handleCron() {
 		try {
 			const result = await this.getRssFeed();
-			const existingGuids = await this.prisma.feed.findMany({ select: { title: true } });
-			const newItems = result.filter(item => !existingGuids.some(existing => existing.title === item.title));
-			if (newItems.length > 0 ) this.prisma.feed.createMany({ data:newItems })
+			const existingArticles = await this.prisma.feed.findMany({ select: { title: true , pubDate:true } });
+			const newItems = result.filter(item => !existingArticles.some(existing => existing.title === item.title && existing.pubDate === item.pubDate));
+			if (newItems.length > 0 ) await this.prisma.feed.createMany({ data:newItems })
 		} catch (error) {
 			throw new HttpException(APP_ERROR.CANT_LOAD_FEED, HttpStatus.BAD_REQUEST);
 		}

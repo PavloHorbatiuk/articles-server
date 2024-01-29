@@ -1,7 +1,7 @@
 import { Module } from '@nestjs/common';
 import { ConfigModule } from '@nestjs/config';
 
-import { FeedModule } from './feed/feed.module';
+import { ArticlesModule } from './modules/articles/articles.module';
 import { AuthModule } from './modules/auth/auth.module';
 import { RssparserModule } from './modules/rssparser/rssparser.module';
 import { TokenModule } from './modules/token/token.module';
@@ -16,7 +16,7 @@ import { PrismaModule } from './prisma/prisma.module';
 		ConfigModule.forRoot({ envFilePath: '.env' }),
 		TokenModule,
 		RssparserModule,
-		FeedModule
+		ArticlesModule
 	],
 	controllers: [],
 	providers: [],
