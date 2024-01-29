@@ -21,15 +21,9 @@ export class ArticlesService {
 	async findAll(page: number = 1, limit: number = 10) {
 		const skip = (page - 1) * limit;
 
-
 		const [data, totalCount] = await Promise.all([
 			this.prisma.feed.findMany({
-				where: {
-					pubDate: {
-						gte: this.getDate(),
-					},
-				},
-				orderBy: { pubDate: 'asc' },
+				orderBy: { pubDate: 'desc' },
 				skip,
 				take: limit,
 

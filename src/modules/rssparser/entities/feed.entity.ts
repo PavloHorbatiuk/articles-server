@@ -6,7 +6,7 @@ export class FeedSchema{
 		_: string;
 		isPermaLink: string;
 	};
-	pubDate: string;
+	pubDate: Date;
 }
 
 export interface RssFeed {

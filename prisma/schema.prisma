@@ -21,5 +21,5 @@ model Feed {
   description String
   guid        Json    
   link        String
-  pubDate     String
+  pubDate     DateTime
 }

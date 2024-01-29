@@ -18,21 +18,22 @@ export class RssparserService {
 			description: item.description,
 			guid: item.guid,
 			link: item.link,
-			pubDate: item.pubDate,
+			pubDate: new Date(item.pubDate),
 		};
 	}
 
-	@Cron(CronExpression.EVERY_10_SECONDS)
+	@Cron(CronExpression.EVERY_10_MINUTES)
 	async handleCron() {
 		try {
 			const result = await this.getRssFeed();
 			const existingArticles = await this.prisma.feed.findMany({ select: { title: true , pubDate:true } });
-			const newItems = result.filter(item => !existingArticles.some(existing => existing.title === item.title && existing.pubDate === item.pubDate));
+			const newItems = result.filter(item => !existingArticles.some(existing => existing.title === item.title));
 			if (newItems.length > 0 ) await this.prisma.feed.createMany({ data:newItems })
 		} catch (error) {
 			throw new HttpException(APP_ERROR.CANT_LOAD_FEED, HttpStatus.BAD_REQUEST);
 		}
 	}
+
 
 	async getRssFeed(): Promise<FeedSchema[]> {
 		const feedUrl = 'https://feeds.bbci.co.uk/news/world/rss.xml';
