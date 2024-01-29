@@ -16,13 +16,12 @@ export class RssparserService {
 		return {
 			title: item.title,
 			description: item.description,
-			guid: item.guid,
 			link: item.link,
 			pubDate: new Date(item.pubDate),
 		};
 	}
 
-	@Cron(CronExpression.EVERY_10_MINUTES)
+	@Cron(CronExpression.EVERY_10_SECONDS)
 	async handleCron() {
 		try {
 			const result = await this.getRssFeed();

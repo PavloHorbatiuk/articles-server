@@ -1,4 +1,5 @@
-import { Injectable } from '@nestjs/common';
+import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
+import { APP_ERROR } from 'src/common/errors';
 import { PrismaService } from 'src/prisma/prisma.service';
 
 import type { CreateArticleDto } from './dto/create-article.dto';
@@ -8,8 +9,8 @@ import type { UpdateArticleDto } from './dto/update-article.dto';
 export class ArticlesService {
 	constructor(private prisma: PrismaService) { }
 
-	create(createArticleDto: CreateArticleDto) {
-		return 'This action adds a new article';
+	async create(createArticleDto: CreateArticleDto) {
+		return await this.prisma.feed.create({ data: createArticleDto })
 	}
 
 	 getDate (givenDate = new Date()): string  {
@@ -35,14 +36,19 @@ export class ArticlesService {
 	}
 
 	findOne(id: number) {
-		return `This action returns a #${id} article`;
+		return this.prisma.feed.findFirst({ where:{ id:id } });
 	}
 
 	update(id: number, updateArticleDto: UpdateArticleDto) {
-		return `This action updates a #${id} article`;
+		return this.prisma.feed.update({ where:{ id:id },data:{ ...updateArticleDto } })
 	}
 
 	remove(id: number) {
-		return `This action removes a #${id} article`;
+		const article = this.prisma.feed.findUnique({ where:{ id:id } })
+		if (article){
+			throw new HttpException(APP_ERROR.NOT_FOUND, HttpStatus.NOT_FOUND);
+		}
+
+		return this.prisma.feed.delete({ where:{ id:id } })
 	}
 }

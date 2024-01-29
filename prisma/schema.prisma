@@ -19,7 +19,6 @@ model Feed {
   id          Int      @id @default(autoincrement())
   title       String
   description String
-  guid        Json    
   link        String
   pubDate     DateTime
 }

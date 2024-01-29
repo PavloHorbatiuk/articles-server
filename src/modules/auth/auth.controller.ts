@@ -1,12 +1,12 @@
-import { Body, Controller, Post, UseGuards } from '@nestjs/common';
+import { Body, Controller, Post } from '@nestjs/common';
 import { ApiResponse, ApiTags } from '@nestjs/swagger';
-import { JwtAuthGuard } from 'src/guards/jwt-auth.guard';
 
 import { AuthService } from './auth.service';
 import { UserLoginDTO } from './dto';
 import { AuthUserResponse } from './response';
 import { CreateUserDTO } from '../users/dto';
 
+@ApiTags('AUTH')
 @Controller('auth')
 export class AuthController {
 	constructor(private readonly authService: AuthService) { }
