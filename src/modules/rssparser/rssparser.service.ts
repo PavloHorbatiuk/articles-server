@@ -22,7 +22,7 @@ export class RssparserService {
 		};
 	}
 
-	@Cron(CronExpression.EVERY_10_MINUTES)
+	@Cron(CronExpression.EVERY_10_SECONDS)
 	async handleCron() {
 		try {
 			const result = await this.getRssFeed();
