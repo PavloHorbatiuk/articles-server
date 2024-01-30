@@ -12,6 +12,7 @@ model User {
   email    String  @unique(map: "User_email_key")
   name     String?
   password String?
+  role    Role     @default(USER)
 }
 
 
@@ -21,4 +22,9 @@ model Feed {
   description String
   link        String
   pubDate     DateTime
+}
+
+enum Role {
+  USER
+  ADMIN
 }
