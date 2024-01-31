@@ -13,11 +13,11 @@ export class ArticlesService {
 		return await this.prisma.feed.create({ data: createArticleDto })
 	}
 
-	 getDate (givenDate = new Date()): string  {
+	getDate(givenDate = new Date()): string {
 		givenDate.setUTCHours(0, 0, 0, 0)
 
 		return givenDate.toUTCString();
-	  };
+	};
 
 	async findAll(page: number = 1, limit: number = 10) {
 		const skip = (page - 1) * limit;
@@ -35,20 +35,20 @@ export class ArticlesService {
 		return { data, totalCount };
 	}
 
-	findOne(id: number) {
-		return this.prisma.feed.findFirst({ where:{ id:id } });
+	async findOne(id: number) {
+		return await this.prisma.feed.findFirst({ where: { id: id } });
 	}
 
-	update(id: number, updateArticleDto: UpdateArticleDto) {
-		return this.prisma.feed.update({ where:{ id:id },data:{ ...updateArticleDto } })
+	async update(id: number, updateArticleDto: UpdateArticleDto) {
+		return await this.prisma.feed.update({ where: { id: id }, data: { ...updateArticleDto } })
 	}
 
-	remove(id: number) {
-		const article = this.prisma.feed.findUnique({ where:{ id:id } })
-		if (article){
+	async remove(id: number) {
+		const article = await this.prisma.feed.findUnique({ where: { id: id } })
+		if (!article) {
 			throw new HttpException(APP_ERROR.NOT_FOUND, HttpStatus.NOT_FOUND);
 		}
 
-		return this.prisma.feed.delete({ where:{ id:id } })
+		return this.prisma.feed.delete({ where: { id: id } })
 	}
 }

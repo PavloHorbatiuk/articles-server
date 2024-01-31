@@ -13,7 +13,7 @@ export class ArticlesController {
 
 	@ApiTags('API')
 	@UseGuards(JwtAuthGuard)
-	@Post()
+	@Post('create')
 	create(@Body() createArticleDto: CreateArticleDto) {
 		return this.articlesService.create(createArticleDto);
 	}
@@ -35,14 +35,14 @@ export class ArticlesController {
 
 	@ApiTags('API')
 	@UseGuards(JwtAuthGuard)
-	@Patch(':id')
+	@Patch('update/:id')
 	update(@Param('id') id: string, @Body() updateArticleDto: UpdateArticleDto) {
 		return this.articlesService.update(+id, updateArticleDto);
 	}
 
 	@ApiTags('API')
 	@UseGuards(JwtAuthGuard)
-	@Delete(':id')
+	@Delete('delete/:id')
 	remove(@Param('id') id: string) {
 		return this.articlesService.remove(+id);
 	}
