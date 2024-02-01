@@ -19,20 +19,19 @@ async function bootstrap() {
 	const document = SwaggerModule.createDocument(app, config);
 	SwaggerModule.setup('api', app, document);
 	const whitelist = ['https://articles-phi.vercel.app/'];
-	app.enableCors({
-		origin: function (origin, callback) {
-		  if (whitelist.indexOf(origin) !== -1) {
-				console.log('allowed cors for:', origin)
-				callback(null, true)
-		  } else {
-				console.log('blocked cors for:', origin)
-				callback(new Error('Not allowed by CORS'))
-		  }
-		},
-		allowedHeaders: 'X-Requested-With, X-HTTP-Method-Override, Content-Type, Accept, Observe',
-		methods: 'GET,PUT,POST,DELETE,UPDATE,OPTIONS',
-		credentials: true,
+
+	app.use((req, res, next) => {
+		res.header('Access-Control-Allow-Origin', '*');
+		res.header('Access-Control-Allow-Methods', 'GET,PUT,POST,DELETE');
+		res.header('Access-Control-Allow-Headers', 'Content-Type, Accept');
+		next();
 	});
+
+	app.enableCors({
+		allowedHeaders:'*',
+		origin: '*'
+	});
+
 	const PORT = process.env.PORT || 5000;
 	app.useGlobalPipes(new ValidationPipe())
 	await app.listen(PORT);
