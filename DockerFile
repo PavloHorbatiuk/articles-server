@@ -1,0 +1,11 @@
+FROM node:12.13-alpine
+
+WORKDIR /app
+
+copy pachage*.json ./
+
+run yarn install
+
+COPY . .
+
+COPY ./dist ./dist
