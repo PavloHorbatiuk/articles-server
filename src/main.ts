@@ -22,6 +22,7 @@ async function bootstrap() {
 		allowedHeaders: ['Content-Type', 'Authorization'],
 		origin: true,
 		credentials: true,
+		methods: 'GET,HEAD,PUT,PATCH,POST,DELETE,OPTIONS',
 	});
 	const PORT = process.env.PORT || 5000;
 	app.useGlobalPipes(new ValidationPipe())
