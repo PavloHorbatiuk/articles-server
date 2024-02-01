@@ -1,0 +1,4 @@
+services:
+  - name: article-server
+    buildCommand: docker build -t postgres .
+    startCommand: docker run -p 3000:3000 postgres
