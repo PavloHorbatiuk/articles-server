@@ -4,10 +4,12 @@ import { SwaggerModule, DocumentBuilder } from '@nestjs/swagger';
 
 import { AppModule } from './app.module';
 
+import type { NestExpressApplication } from '@nestjs/platform-express';
+
 declare const module: any;
 
 async function bootstrap() {
-	const app = await NestFactory.create(AppModule);
+	const app = await NestFactory.create<NestExpressApplication>(AppModule);
 
 	const config = new DocumentBuilder()
 		.setTitle('crm')
@@ -19,16 +21,20 @@ async function bootstrap() {
 	const document = SwaggerModule.createDocument(app, config);
 	SwaggerModule.setup('api', app, document);
 
-	app.use((req, res, next) => {
-		res.header('Access-Control-Allow-Origin', '*');
-		res.header('Access-Control-Allow-Methods', 'GET,PUT,POST,DELETE');
-		res.header('Access-Control-Allow-Headers', 'Content-Type, Accept');
-		next();
-	});
-
+	const whitelist = ['https://articles-phi.vercel.app'];
 	app.enableCors({
-		allowedHeaders:'*',
-		origin: '*'
+		origin: function (origin, callback) {
+			if (whitelist.indexOf(origin) !== -1) {
+				console.log('allowed cors for:', origin)
+				callback(null, true)
+			} else {
+				console.log('blocked cors for:', origin)
+				callback(new Error('Not allowed by CORS'))
+			}
+		},
+		allowedHeaders: 'X-Requested-With, X-HTTP-Method-Override, Content-Type, Accept, Observe',
+		methods: 'GET,PUT,POST,DELETE,UPDATE,OPTIONS',
+		credentials: true,
 	});
 
 	const PORT = process.env.PORT || 5000;
