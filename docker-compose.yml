@@ -5,9 +5,9 @@ services:
     env_file:
         - .env
     environment:
-      - POSTGRES_USER=${POSTGRES_USER}
-      - POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
-      - "POSTGRES_HOST_AUTH_METHOD=trust"
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=AD1297885
+      - POSTGRES_HOST_AUTH_METHOD=trust
     volumes:
       - postgres:/var/lib/postgresql/data
     ports:
