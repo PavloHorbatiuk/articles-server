@@ -21,14 +21,17 @@ async function bootstrap() {
 	const document = SwaggerModule.createDocument(app, config);
 	SwaggerModule.setup('api', app, document);
 
-	app.enableCors();
+	const whitelist = ['articles-phi.vercel.app/', 'api.example.com'];
+	app.enableCors({
+	  origin: function (origin, callback) {
+			if (!origin || whitelist.indexOf(origin) !== -1) {
+		  callback(null, true)
+			} else {
+		  callback(new Error('Not allowed by CORS'))
+			}
+	  },
 
-	app.use((req, res, next) => {
-		res.header('Access-Control-Allow-Origin', '*');
-		res.header('Access-Control-Allow-Methods', 'GET,PUT,POST,DELETE');
-		res.header('Access-Control-Allow-Headers', 'Content-Type, Accept');
-		next();
-	  })
+	});
 
 	const PORT = process.env.PORT || 5000;
 	app.useGlobalPipes(new ValidationPipe())
