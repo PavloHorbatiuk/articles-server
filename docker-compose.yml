@@ -1,8 +1,6 @@
 services:
   postgres:
     image: postgres
-     environment:
-      POSTGRES_PASSWORD: AD1297885
     restart: always
     env_file:
         - .env
