@@ -23,7 +23,7 @@ async function bootstrap() {
 
 	app.enableCors({
 		allowedHeaders: ['Content-Type', 'Authorization'],
-		origin: 'https://articles-37clf2zxz-pavlohorbatiuk.vercel.app/',
+		origin: 'https://articles-37clf2zxz-pavlohorbatiuk.vercel.app',
 		credentials: true,
 	});
 
