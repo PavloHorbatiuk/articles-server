@@ -13,8 +13,8 @@ export class TokenService {
 		const payload = { user };
 
 		return this.jwtService.sign(payload, {
-			secret: this.configService.get('secret_jwt'),
-			expiresIn: this.configService.get('expired_jwt')
+			secret: process.env.SECRET_JWT,
+			expiresIn: process.env.SECRET_JWT
 		})
 	}
 }
