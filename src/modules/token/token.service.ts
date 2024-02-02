@@ -14,7 +14,7 @@ export class TokenService {
 
 		return this.jwtService.sign(payload, {
 			secret: process.env.SECRET_JWT,
-			expiresIn: process.env.SECRET_JWT
+			expiresIn: process.env.EXPIRED_JWT
 		})
 	}
 }
